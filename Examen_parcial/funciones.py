@@ -229,53 +229,6 @@ def calcular_promedio_total(lista_basquet: list[dict], estadistica: str)->float:
 
     return promedio
 
-# def ordenar_lista_segun_key(lista_original: list, key_a_ordenar: str, flag_estadistica=False, orden_asc=True) -> list:
-#     '''
-#     Esta función genera una lista ordenada según el param "key_a_ordenar" a través de un método de ordenamiento.
-#     -----------
-#     Parámetros:
-#     lista_original: tipo list[dict] -> la lista original 
-#     key_a_ordenar: tipo string -> la key cuyo valor se va a utilizar como el parámetro del ordenamiento.
-#     flag_estadistica: tipo bool - definido en False -> flag que determina si la key a ordenar se encuentra dentro de "estadisticas" o no.
-#     orden_asc: tipo bool - definido en True -> variable que determina si el orden es ascendente(True) o descendente(False)
-#     -----------
-#     Retorna:
-#     False: en caso de que lista_original se encuentre vacía. 
-#     lista: tipo list -> la lista ordenada.
-#     '''
-#     if len(lista_original) == 0:
-#         print("Lista vacía.")
-#         return False
-#     lista = lista_original[:]
-#     rango_a = len(lista)
-#     flag_swap = True
-#     while (flag_swap):
-#         flag_swap = False
-#         rango_a = rango_a - 1
-#         for indice_A in range(rango_a):
-#             if flag_estadistica == False:
-#                 if orden_asc == True:
-#                     if lista[indice_A][key_a_ordenar] > lista[indice_A+1][key_a_ordenar]:
-#                         lista[indice_A], lista[indice_A +
-#                                                1] = lista[indice_A+1], lista[indice_A]
-#                         flag_swap = True
-#                 elif orden_asc == False:
-#                     if lista[indice_A][key_a_ordenar] < lista[indice_A+1][key_a_ordenar]:
-#                         lista[indice_A], lista[indice_A +
-#                                                1] = lista[indice_A+1], lista[indice_A]
-#                         flag_swap = True
-#             elif flag_estadistica == True:
-#                 if orden_asc == True:
-#                     if lista[indice_A]["estadisticas"][key_a_ordenar] > lista[indice_A+1]["estadisticas"][key_a_ordenar]:
-#                         lista[indice_A], lista[indice_A +
-#                                                1] = lista[indice_A+1], lista[indice_A]
-#                         flag_swap = True
-#                 elif orden_asc == False:
-#                     if lista[indice_A]["estadisticas"][key_a_ordenar] < lista[indice_A+1]["estadisticas"][key_a_ordenar]:
-#                         lista[indice_A], lista[indice_A +
-#                                                1] = lista[indice_A+1], lista[indice_A]
-#                         flag_swap = True
-#     return lista
 
 def ordenar_lista_por_atributo(lista_original:list, atributo: str, condicion: str):
     '''
@@ -284,10 +237,9 @@ def ordenar_lista_por_atributo(lista_original:list, atributo: str, condicion: st
     Parámetros:
     lista_orginal: tipo list[dict] - La lista de la cual se trabajará, primero generando una copia.
     atributo: tipo string - La key que se utilizará de parámetro para el ordenamiento.
-    orden: tipo string - el tipo de ordenamiento que se solicita. (asc o desc)
+    condicion: tipo bool - True o False. (asc o desc)
     ----------
     Devuelve:
-    -1: en caso de error, ya sea que la lista está vacía.
     lista: la lista ordenada, ascendente o descendente, según el atributo pedido por parámetro.
     '''
     rango = len(lista_original)
@@ -358,48 +310,71 @@ def mostrar_miembros_salon_de_la_fama(lista_basquet:list[dict])->list:
 ---------------------Parte 7----------------
 '''
 
-def calcular_max(lista_heroes:list, key:str, clave2)->str:
+def calcular_max(lista_basquet:list, key:str, clave2)->dict:
     '''
     Calcular máximo de la lista según el key
-    Recibe lista_heroes y key (str)
-    Retorna el jugador con el mayor dato
+    Recibe lista_basquet y key (str)
+    Retorna el jugador con el mayor valor y datos
     '''
-    valor = lista_heroes[0]
+    valor = lista_basquet[0]
 
-    for i in lista_heroes:
+    for i in lista_basquet:
         if float(i[key][clave2]) > float(valor[key][clave2]):
             valor = i
 
     return valor
 
-def calcular_min(lista_heroes:list, key:str, clave2)->str:
+def calcular_min(lista_basquet:list, key:str, clave2)->dict:
     '''
-    Calcular minimo de la lista segun el key
-    Recibe lista_heroes y key(str)
-    Retorna el heroe del dato menos alto
+    Calcular el mínimo de la lista según la clave proporcionada.
+    ---------------------
+    Parámetros:
+    lista_basquet (list[dict]): Lista de jugadores.
+    key (str): Clave para acceder a la estadística dentro de cada jugador.
+    clave2 (str): Tipo de estadística a considerar.
+    -----------------------
+    Retorna:
+    dict: El jugador con el valor segun la estadística especificada.
     '''
-    valor = lista_heroes[0]
+    valor = lista_basquet[0]
 
-    for i in lista_heroes:
+    for i in lista_basquet:
         if float(i[key][clave2]) < float(valor[key][clave2]):
             valor = i
 
     return valor
 
-def calcular_max_min_dato(lista_heroes:list, string:str, string_clave:str , clave2):
+def calcular_max_min_dato(lista_basquet:list, string:str, string_clave:str , clave2:str)->str:
     '''
     Calcular maximo y minimo en una sola funcion
-    Recibe lista_heroes , string (maximo o minimo) y string_clave
-    Retorna str
+    -----------
+    Parametros:
+    lista_basquet , string (maximo o minimo) , string_clave("estadisticas") y clave2(tipo de estadistica) 
+    -------------
+    Retorna:
+    dato minimo: dict ->  dato de calcular max
+    dato maximo: dict ->  dato de calcular min
     '''
     if string=="maximo":
-        dato_maximo= calcular_max(lista_heroes, string_clave, clave2)
+        dato_maximo= calcular_max(lista_basquet, string_clave, clave2)
         return dato_maximo 
     elif string=="minimo":
-        dato_minimo=calcular_min(lista_heroes,string_clave, clave2)
+        dato_minimo=calcular_min(lista_basquet,string_clave, clave2)
         return dato_minimo
 
-def mostrar_mayor_cantidad_estadisticas(valor, max_min , key, clave2 ):
+def mostrar_mayor_cantidad_estadisticas(valor, max_min:str , key:str, clave2:str)->str:
+    '''
+    Esta funcion muestra el jugador y su estadistica con la mayor cantidad
+    -----------------------
+    Parametros: 
+    valor : 
+    max_min: str, maximo o minimo
+    key:str, entra a "estadisticas"
+    clave2: str, tipo de estadistica
+    ------------------------
+    Retorno:
+    texto: str, cadena de texto
+    '''
     valor = calcular_max_min_dato(lista_basquet, max_min , key, clave2)
     clave =clave2.replace("_", " ").capitalize()
 
@@ -408,7 +383,17 @@ def mostrar_mayor_cantidad_estadisticas(valor, max_min , key, clave2 ):
 
 
 
-def filtrar_por_promedio(lista_original: list, key: str, clave2: str, numero):
+def filtrar_por_promedio(lista_original: list, key: str, clave2: str, numero:int):
+    '''
+    Esta funcion calcula los datos que superan al valor ingresado
+    --------------
+    Parametros:
+    key: str, clave "estadisticas"
+    clave2: str, tipo de estadistica
+    numero: int, valor ingresado
+    Retorna:
+    lista_filtrada: list[dict], muestra la lista que contiene diccionarios de jugadores que superan al valor ingresado 
+    '''
     if len(lista_original) == 0:
         return -1
     lista_filtrada = []
@@ -419,7 +404,17 @@ def filtrar_por_promedio(lista_original: list, key: str, clave2: str, numero):
     return lista_filtrada
 
 
-def mostrar_valor_mayor_que_lo_ingresado(lista, key, clave2):
+def mostrar_valor_mayor_que_lo_ingresado(lista:list, key:str, clave2:str)->str:
+    '''
+    Esta funcion muestra a los jugadores y el tipo de estadistica que superan al valor ingresado
+    -----------
+    Parametros: 
+    list: list[dict], la lista importado del JSON
+    key: str, clave para ingresar a "estadisticas"
+    clave2: str, clave del tipo de estadisticas
+    Retorna:
+    texto: str, cadena de texto
+    '''
     numero = int(input("Ingresa un valor: "))
     lista_filtrada = filtrar_por_promedio(lista, key, clave2, numero)
     texto = ""
@@ -468,19 +463,21 @@ def calcular_promedio_excluyendo_menor(lista_original: list[dict], estadistica: 
     else:
         print("Estadística inexistente.")
 
-# promedio = calcular_promedio_excluyendo_menor(lista_basquet, "promedio_puntos_por_partido", minimo)
 
-# print("\nEl promedio total del equipo de {0}: {1}\n".format("promedio_puntos_por_partido".replace("_", " ").capitalize(),promedio))
 
-'''
----------------------------Parte 17------------
-'''
-# print(mostrar_mayor_cantidad_estadisticas(lista_basquet, "maximo", "estadisticas", "logros"))
-
-def obtener_jugador_mayor_logros(lista_jugadores, clave)->str:
+def obtener_jugador_mayor_logros(lista_jugadores:list[dict], clave:str)->str:
+    '''
+    Esta funcion calcula y muestra al jugador con mayor cantidad de logros
+    ----------------------
+    Parametros:
+    lista_jugadores: list[dict] importado del JSON
+    clave: clave del diccionario
+    ------------------
+    Retorno:
+    texto: str, cadena de texto
+    '''
     jugador_mayor_logros = None
     mayor_cantidad_logros = 0
-    # menor_cantidad_logros = float('inf')
 
 
     for jugador in lista_jugadores:
@@ -492,20 +489,20 @@ def obtener_jugador_mayor_logros(lista_jugadores, clave)->str:
 
     return texto
 
-# mayor = obtener_jugador_mayor_logros(lista_basquet, clave="logros")
-# print("El jugador con la mayor cantidad de logros obtenidos es:", mayor['nombre'])
-# print("Cantidad de logros:", mayor["logros"])
 
-'''
----------------------Parte 18-------------------
-'''
-# print(mostrar_valor_mayor_que_lo_ingresado(lista_basquet, "estadisticas", "porcentaje_tiros_triples"))
 
-'''
-------------------Parte 19-----------------------
-'''
 
-def obtener_jugadores_mayor_temporadas(lista_jugadores):
+def obtener_jugadores_mayor_temporadas(lista_jugadores:list[dict])->list[dict]:
+    '''
+    Esta funcion calcula al jugador con mayor cantidad de temporadas jugadas
+    ----------------------
+    Parametros:
+    lista_jugadores: list[dict] importado del JSON
+    ------------------
+    Retorno:
+    jugadores_mayor_temporadas: lista de diccionario de jugadores con mas temporadas jugadas
+    '''
+     
     jugadores_mayor_temporadas = []
     mayor_cantidad_temporadas = 0
 
@@ -519,7 +516,15 @@ def obtener_jugadores_mayor_temporadas(lista_jugadores):
 
     return jugadores_mayor_temporadas
 
-def mostrar_jugadores_mayor_temporadas(jugadores_mayor_temporadas):
+def mostrar_jugadores_mayor_temporadas(jugadores_mayor_temporadas:dict)->None:
+    '''
+    Esta funcion muestra al jugador con mayor cantidad de temporadas jugadas
+    ----------------------
+    Parametros:
+    jugadores_mayor_temporadas:  lista de diccionarios de los jugadores con mas temporadas jugadas 
+    ------------------
+    No Retorna:
+    '''
     if jugadores_mayor_temporadas:
         print("Jugadores con la mayor cantidad de temporadas jugadas:")
         for jugador in jugadores_mayor_temporadas:
@@ -529,16 +534,16 @@ def mostrar_jugadores_mayor_temporadas(jugadores_mayor_temporadas):
     else:
         print("No se encontraron jugadores en la lista.")
 
-
-# jugadores_mayor_temporadas = obtener_jugadores_mayor_temporadas(lista_basquet)
-# mostrar_jugadores_mayor_temporadas(jugadores_mayor_temporadas)
-
-
-'''
-----------Parte 20-----------
-'''
-    
-def mostrar_jugadores_superior_porcentaje(lista_jugadores, porcentaje):
+def mostrar_jugadores_superior_porcentaje(lista_jugadores:list[dict], porcentaje:float)->None:
+    '''
+    Esta funcion muestra a los jugadores que superan al valor ingresado de porcentaje_tiros_de_campo
+    -----------
+    Parametros: 
+    lista_jugadores: list[dict] importado del JSON
+    porcentaje:float, valor ingresado
+    -----------
+    No Retorna
+    '''
     jugadores_filtrados = []
 
     for jugador in lista_jugadores:
@@ -563,129 +568,5 @@ def mostrar_jugadores_superior_porcentaje(lista_jugadores, porcentaje):
             print("---")
     else:
         print("No se encontraron jugadores con porcentaje de tiros de campo superior a", porcentaje)
-
-
-# valor_ingresado = float(input("Ingrese el valor del porcentaje de tiros de campo: "))
-# mostrar_jugadores_superior_porcentaje(lista_basquet, valor_ingresado)
-
-'''
--------------------------BONUS-----------------------
-'''
-# def calcular_ranking_posicion(lista_basquet):
-#     if not lista_basquet:
-#         print("Lista vacía")
-#         return -1
-#     else:
-#         for i in lista_basquet:
-
-        
-
-# def ordenar_por_nombre(lista_basquet):
-#     lista= []
-#     for indice in range(len(lista_basquet)):
-#         lista = print(lista_basquet[indice]["nombre"])
-
-    
-#     return lista
-
-# ordenar_por_nombre(lista_basquet)
-# def calcular_lista_ranking_jugadores_stats(lista_original: list[dict]):
-#     '''
-#     Esta función genera una lista que contiene a los jugadores, con la posición que rankearían según distíntas estadísticas.
-#     ------------
-#     Parámetros:
-#     lista_original: tipo list[dict] -> la lista original que se importó del JSON.
-#     ------------
-#     Retorna:
-#     False: en caso de que lista_original se encuentre vacía.
-#     lista_ranking: tipo list[list] -> la lista que posee, en formato de lista, a los jugadores junto a la posición de ranking de las estadísticas.
-#     '''
-#     if len(lista_original) == 0:
-#         print("Lista vacía.")
-#         return False
-#     lista_aux = lista_original[:]
-#     lista_ranking = []
-#     contador = 0
-#     lista_puntos = ordenar_lista_segun_key(
-#         lista_aux, "puntos_totales", True, False)
-#     lista_rebotes = ordenar_lista_segun_key(
-#         lista_aux, "rebotes_totales", True, False)
-#     lista_asistencias = ordenar_lista_segun_key(
-#         lista_aux, "asistencias_totales", True, False)
-#     lista_robos = ordenar_lista_segun_key(
-#         lista_aux, "robos_totales", True, False)
-#     while contador <= len(lista_aux):
-#         for indice_aux in range(len(lista_aux)):
-#             lista_ranking_jugador = []
-#             for indice_puntos in range(len(lista_aux)):
-#                 if lista_aux[indice_aux]["nombre"] == lista_puntos[indice_puntos]["nombre"]:
-#                     lista_ranking_jugador.extend(
-#                         [lista_aux[indice_aux]["nombre"], str(indice_puntos + 1)])
-#             for indice_rebotes in range(len(lista_aux)):
-#                 if lista_aux[indice_aux]["nombre"] == lista_rebotes[indice_rebotes]["nombre"]:
-#                     lista_ranking_jugador.extend([str(indice_rebotes + 1)])
-#             for indice_asistencias in range(len(lista_aux)):
-#                 if lista_aux[indice_aux]["nombre"] == lista_asistencias[indice_asistencias]["nombre"]:
-#                     lista_ranking_jugador.extend([str(indice_asistencias + 1)])
-#             for indice_robos in range(len(lista_aux)):
-#                 if lista_aux[indice_aux]["nombre"] == lista_robos[indice_robos]["nombre"]:
-#                     lista_ranking_jugador.extend([str(indice_robos + 1)])
-#             contador += 1
-#             lista_ranking.append(lista_ranking_jugador)
-#     return lista_ranking
-
-# lista_ranking = calcular_lista_ranking_jugadores_stats(lista_basquet)
-# print(lista_ranking)
-# def exportar_ranking_csv(lista_original: list[dict], path: str):
-#     '''
-#     Esta función exporta un archivo .csv con el formato para generar una tabla con la posiciones de las estadísticas.
-#     ------------
-#     Parámetros:
-#     lista_original: tipo list[dict] -> la lista original que se importó del JSON.
-#     path: tipo string -> la ruta del directorio donde se quiere generar el archivo .csv.
-#     ------------
-#     Retorna:
-#     False: en caso de que lista_original se encuentre vacía.
-#     '''
-#     if len(lista_original) == 0:
-#         print("Lista vacía.")
-#         return False
-#     lista_keys = ["Jugador", "Puntos", "Rebotes", "Asistencias", "Robos"]
-#     string_keys = ",".join(lista_keys)
-#     mensaje = string_keys + "\n"
-#     for jugador in lista_ranking:
-#         mensaje += ",".join(jugador) + "\n"
-#     with open(path, "w") as archivo:
-#         archivo.writelines([mensaje])
-#     print("el archivo fue creado en {0}".format(path))
-
-
-
-# exportar_ranking_csv(lista_ranking, 'ranking_jugadores.csv')
-
-
-'''
------------ FIN -----------------
-'''
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 

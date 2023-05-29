@@ -3,6 +3,7 @@ from funciones import *
 from menu import *
 
 def dream_team_app():
+    jugador = None
     while True:
         respuesta = menu_principal()
 
@@ -14,8 +15,11 @@ def dream_team_app():
             jugador = int(input("Ingrese el índice del jugador para ver sus estadísticas: "))
             imprimir_dato(busqueda_jugador_por_indice(lista_basquet, jugador))
         elif respuesta == 3:
-            estadisticas_guardadas =  seleccionar_estadisticas_jugador(jugador)
-            guardar_csv("jugador_estadistica.csv", estadisticas_guardadas)
+            if jugador is None:
+                print("Primero debes seleccionar un jugador.")
+            else:
+                estadisticas_guardadas = seleccionar_estadisticas_jugador(jugador)
+                guardar_csv("jugador_estadistica.csv", estadisticas_guardadas)
         elif respuesta == 4:
             nombre_jugador = buscar_jugador_nombre(lista_basquet)
             imprimir_dato(mostrar_logros_jugador_seleccionado(nombre_jugador))
