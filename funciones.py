@@ -20,7 +20,7 @@ def leer_archivo(ruta:str)->dict:
         diccionario_jugadores= json.load(archivo)
     return diccionario_jugadores["jugadores"]
 
-rutaJSON = "Examen_parcial\\dt.json"
+rutaJSON = "dt.json"
 lista_basquet= leer_archivo(rutaJSON)
 
 
@@ -122,26 +122,13 @@ def seleccionar_estadisticas_jugador(indice: int)->list:
             print("La lista original ha sido modificada.")
 
 
-def guardar_csv(nombre_archivo: str, lista_jugador: list)->bool:
-    '''
-    Guarda el csv de manera que nosotros podamos leerlo y sobreescribirlo "w"
-    ------------
-    Parametros: 
-    nombre_archivo: str, el nombre del archivo
-    lista_jugador es la lista del jugador seleccionado anteriormente con su informacion 
-    ------------
-    Retorna:
-    True o False
-    '''
-    if not lista_jugador:
-        print("ERROR, {0} no se guardo correctamente...".format(nombre_archivo))
-        return False
-    else:
-        with open(nombre_archivo, 'w', newline='') as archivo:
-            writer = csv.writer(archivo)
-            writer.writerows(lista_jugador)
-            print("El archivo {0} se guardó correctamente".format(nombre_archivo))
-            return True
+def guardar_datos_csv(datos, nombre_archivo):
+    with open(nombre_archivo, mode='w', newline='') as file:
+        writer = csv.writer(file)
+        writer.writerow([item[0] for item in datos])
+        writer.writerow([item[1] for item in datos])
+
+    print(f"Los datos se han guardado correctamente en el archivo '{nombre_archivo}'.")
 
 
 

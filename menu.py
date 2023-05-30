@@ -47,7 +47,6 @@ def imprimir_menu_parcial_1()->None:
                     "18 - Ingresar un valor y mostrar los jugadores que hayan tenido un porcentaje de tiros triples superior a ese valor.\n"
                     "19 - Mostrar el jugador con la mayor cantidad de temporadas jugadas.\n"
                     "20 - Ingresar un valor y mostrar los jugadores , ordenados por posición en la cancha, que hayan tenido un porcentaje de tiros de campo superior a ese valor.\n"
-                    "23 - Calcular de cada jugador cuál es su posición en cada uno de los siguientes ranking: PUNTOS , REBOTES , ASISTENCIAS Y ROBOS.\n"
                     "O- Salir\n"
     )
 

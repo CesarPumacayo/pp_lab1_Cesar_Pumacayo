@@ -19,7 +19,7 @@ def dream_team_app():
                 print("Primero debes seleccionar un jugador.")
             else:
                 estadisticas_guardadas = seleccionar_estadisticas_jugador(jugador)
-                guardar_csv("jugador_estadistica.csv", estadisticas_guardadas)
+                guardar_datos_csv(estadisticas_guardadas ,"jugador_estadistica.csv")
         elif respuesta == 4:
             nombre_jugador = buscar_jugador_nombre(lista_basquet)
             imprimir_dato(mostrar_logros_jugador_seleccionado(nombre_jugador))
@@ -64,7 +64,7 @@ def dream_team_app():
         elif respuesta == 21:
             break
         else:
-            print("Opción inválida, ingrese una letra con mayuscula")
+            print("Opción inválida, ingrese una de 1 al 20")
         input("\nPulse enter para continuar\n")
 
 dream_team_app()
