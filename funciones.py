@@ -645,100 +645,81 @@ def cantidad_posicion(lista_basquet):
         elif i["posicion"] == "Base":
             contador5+=1
 
-    print("Ala-Pivot : {0}".format(contador1))
-    print("Alero : {0}".format(contador2))
-    print("Pivot : {0}".format(contador3))
-    print("Ala-Pivot : {0}".format(contador4))
-    print("Base : {0}".format(contador5))
+    print("Ala-Pivot : {0}\nAlero : {1}\nPivot : {2}\nAla-Pivot : {3}\nBase : {4}".format(contador1,contador2,contador3,contador4,contador5,))
 
 
 
 def mostrar_lista_ordenada_all_stars_desc(lista_basquet):
+    lista_logros=[]
     for item in lista_basquet:
         logros = item["logros"]
         for logro in logros:
-            if re.findall(r"\d+ veces All-Star", logro):
-                print("{0}, ({1})".format(item["nombre"], logro))
+            matches = re.findall(r"(\d+) veces All-Star", logro)
+            if matches:
+                num_all_star = int(matches[0])
+                lista_logros.append((item["nombre"], num_all_star))
 
+    n = len(lista_logros)
+    for i in range(n - 1):
+        for j in range(0, n - i - 1):
+            if lista_logros[j][1] < lista_logros[j + 1][1]:
+                lista_logros[j], lista_logros[j + 1] = lista_logros[j + 1], lista_logros[j]
+    for nombre, num_all_star in lista_logros:
+        print("{0} ({1} veces All-Star)".format(nombre, num_all_star))
+                
 
+def buscar_jugador_con_la_mejor_estadistica(lista_jugadores: list, estadistica: str) -> dict:
+    """
+    Esta función busca el jugador con el valor más grande en una estadística específica.
+    -----------------------
+    Parámetros:
+    lista_jugadores: list[dict] importado del JSON
+    estadistica: str, nombre de la estadística a buscar
+    -------------
+    Retorno: 
+    dict: Diccionario que representa al jugador con el valor más grande en la estadística dada
+    """
 
-
-def buscar_jugador_con_la_mejor_stadistica(lista_jugadores:list,valor_stadistico:str) -> str:
+    mejor_jugador = max(lista_jugadores, key=lambda jugador: jugador["estadisticas"][estadistica])
+    return mejor_jugador
     
+
+def los_mejores_jugadores_de_cada_estadistica(lista_jugadores: list) -> str:
     """
-    busca el mayor valor de la estaditicas
-    de cada jugador en la lista 
+    Esta función muestra por consola el nombre con el mayor valor estadístico de cada una de las estadísticas.
+    -----------------------
+    Parámetros:
+    lista_jugadores: list[dict] importado del JSON
+    -------------
+    Retorno: 
+    str: Cadena de texto de cada estadística, el nombre del jugador que tiene el valor más grande en esa estadística
+    """
+
+    lista_estadisticas = [
+        "temporadas",
+        "puntos_totales",
+        "promedio_puntos_por_partido",
+        "rebotes_totales",
+        "promedio_rebotes_por_partido",
+        "asistencias_totales",
+        "promedio_asistencias_por_partido",
+        "robos_totales",
+        "bloqueos_totales",
+        "porcentaje_tiros_de_campo",
+        "porcentaje_tiros_libres",
+        "porcentaje_tiros_triples"
+    ]
     
-    lista_jugadores: es la lista
-    donde se buscan y comparan 
-    los datos de los jugadores
-
-    valor_stadistico: es el valor 
-    que se va a compara y buscar
-    en la lista
-
-    retorno:
-    devuelve un texto con el nombre del
-    jugador que tiene el mayor valor 
-    espesificado en la lista 
-    """
-
-
-    flag_primer_vez = True
-
-    for jugador in lista_jugadores:
-
-        if flag_primer_vez:
-
-            flag_primer_vez= False
-
-            mayor_estaditica = jugador
-
-        elif jugador["estadisticas"][valor_stadistico] > mayor_estaditica["estadisticas"][valor_stadistico]:
-
-            mayor_estaditica = jugador
-
-        estaditica = valor_stadistico.replace("_"," ")
-
-        jugador_con_mejor_estadistica = "Mayor cantidad de {0}: {1}({2})".format(estaditica,mayor_estaditica["nombre"],
-                                                                                 mayor_estaditica["estadisticas"][valor_stadistico])
-
-    return jugador_con_mejor_estadistica
-
-
-def los_mejores_jugadores_de_cada_estadistica(lista_jugadores:list) -> list:
-
-    """
-    muestra por consola 
-    el nombre con el mayor
-    valor esataditico de
-    cada una de las estaditicas
-
-    lista_jugadores: es la lista    
-    donde se van a buscar y mostrar
-    las mayores estaditicas
-
-    retorno:
-    devuelve una lista la mayor 
-    estadistica y el nombre
-    del jugador que tiene el
-    valor mas grande en esa
-    estaditica 
-    """
-
-    lista_estaditica = []
+    lista_mejores_jugadores = []
     
-    lista_de_cada_staditica = []
+    for estadistica in lista_estadisticas:
+        mejor_jugador = buscar_jugador_con_la_mejor_estadistica(lista_jugadores, estadistica)
+        estadistica_texto = estadistica.replace("_", " ")
+        lista_mejores_jugadores.append(f"Mayor cantidad de {estadistica_texto}: {mejor_jugador['nombre']} ({mejor_jugador['estadisticas'][estadistica]})")
+    
+    return "\n".join(lista_mejores_jugadores)
 
-    for key in lista_jugadores[0]["estadisticas"]:
-
-        lista_estaditica.append(key)
-
-    for estadistica in lista_estaditica:
-
-       lista_de_cada_staditica.append(buscar_jugador_con_la_mejor_stadistica(lista_jugadores,estadistica))
-
-    return "\n".join(lista_de_cada_staditica)
+    
 
 
 def mejor_estadistica_global(jugadores):

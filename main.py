@@ -71,19 +71,18 @@ def dream_team_app():
         elif respuesta == 23:
 
             lista_ranking = quicksort_tipos_estadisticas(lista_basquet)
-            print(lista_ranking) 
             guardar_ranking_csv("ranking.csv", lista_ranking)
 
         elif respuesta == 24:
-            los_mejores = los_mejores_jugadores_de_cada_estadistica(lista_basquet)
-            print(los_mejores)
+            imprimir_dato(los_mejores_jugadores_de_cada_estadistica(lista_basquet))
+   
 
         elif respuesta == 25:
 
             mejor_estadistica_global(lista_basquet)
             
         elif respuesta == 26:
-        
+            print("Saliste del menú....")
             break
         else:
             print("Opción inválida, Ingrese una opcion de 1 al 21 o bonus (23)")

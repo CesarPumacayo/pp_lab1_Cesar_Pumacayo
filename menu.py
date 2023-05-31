@@ -50,8 +50,8 @@ def imprimir_menu_parcial_1()->None:
                     "21 -  la cantidad de jugadores que hay por cada posición (1)\n"
                     "22 - Mostrar la lista de jugadores ordenadas por la cantidad de All-Star de forma descendente\n"
                     "23 . Bonus Rankings Jugadores\n"
-                    "24 - Extra (3)\n"
-                    "25 - Extra (4)\n"
+                    "24 - Jugadores que tienen las mejores estadísticas en cada valor\n"
+                    "25 - Jugador tiene las mejores estadísticas de todos\n"
                     "26 - Salir \n"
 
                     "O- Salir\n"
