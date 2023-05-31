@@ -22,6 +22,7 @@ def dream_team_app():
                 guardar_datos_csv(estadisticas_guardadas ,"jugador_estadistica.csv")
         elif respuesta == 4:
             nombre_jugador = buscar_jugador_nombre(lista_basquet)
+            
             imprimir_dato(mostrar_logros_jugador_seleccionado(nombre_jugador))
         elif respuesta == 5:
             tipo_estadistica = "promedio_puntos_por_partido"
@@ -62,9 +63,30 @@ def dream_team_app():
             valor_ingresado = float(input("Ingrese el valor del porcentaje de tiros de campo: "))
             mostrar_jugadores_superior_porcentaje(lista_basquet, valor_ingresado)
         elif respuesta == 21:
+            cantidad_posicion(lista_basquet)
+
+        elif respuesta == 22:
+            mostrar_lista_ordenada_all_stars_desc(lista_basquet)
+
+        elif respuesta == 23:
+
+            lista_ranking = quicksort_tipos_estadisticas(lista_basquet)
+            print(lista_ranking) 
+            guardar_ranking_csv("ranking.csv", lista_ranking)
+
+        elif respuesta == 24:
+            los_mejores = los_mejores_jugadores_de_cada_estadistica(lista_basquet)
+            print(los_mejores)
+
+        elif respuesta == 25:
+
+            mejor_estadistica_global(lista_basquet)
+            
+        elif respuesta == 26:
+        
             break
         else:
-            print("Opción inválida, ingrese una de 1 al 20")
+            print("Opción inválida, Ingrese una opcion de 1 al 21 o bonus (23)")
         input("\nPulse enter para continuar\n")
 
 dream_team_app()

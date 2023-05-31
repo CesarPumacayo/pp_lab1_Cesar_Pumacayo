@@ -7,7 +7,7 @@ import re
 from functools import reduce
 from copy import deepcopy
 
-def leer_archivo(ruta:str)->dict:
+def leer_archivo(ruta:str)->dict:  #list[dict]
     '''
     Lee y abre el archivo de la ruta en este caso .JSON
     Parametros: 
@@ -112,7 +112,7 @@ def seleccionar_estadisticas_jugador(indice: int)->list:
             for clave, valor in estadisticas.items():
                 datos.append([clave, valor])
             return datos
-
+    
         else:
             print("La función no devuelve una lista de datos.")
 
@@ -556,4 +556,192 @@ def mostrar_jugadores_superior_porcentaje(lista_jugadores:list[dict], porcentaje
     else:
         print("No se encontraron jugadores con porcentaje de tiros de campo superior a", porcentaje)
 
+
+"--BONUS--"
+
+def ordenamiento_quicksort(lista_basquet:list, clave:str, tipo_clave:str,asc_des: bool) -> list:
+
+    if len(lista_basquet) <= 1:
+        return lista_basquet
+    else:
+        lista_diccionario = lista_basquet[:]
+        indice = lista_diccionario[0]
+        menor = []
+        mayor = []
+        for jugador in lista_diccionario[1:]:
+            if asc_des:
+                if jugador[clave][tipo_clave] <= indice[clave][tipo_clave]:
+                    menor.append(jugador)
+                else:
+                    mayor.append(jugador)
+            else:
+                if jugador[clave][tipo_clave] >= indice[clave][tipo_clave]:
+                    menor.append(jugador)
+                else:
+                    mayor.append(jugador)
+        return (
+            ordenamiento_quicksort(menor, clave, tipo_clave, asc_des) + [indice]  + ordenamiento_quicksort(mayor, clave, tipo_clave, asc_des)
+        )
+#                                 lista  clave     tipo clave  asc_des(bool) + 
+
+
+def quicksort_tipos_estadisticas(lista_basquet:list[dict])-> list:
+
+    if not lista_basquet:
+        print("La lista esta vacia")
+        return False
+    else:
+        rankings_lista_basquet = []
+        for jugador in lista_basquet:
+            rankings_lista_basquet.append({"nombre": jugador["nombre"]})
+        
+        tipo_clave = ["puntos_totales", "rebotes_totales", "asistencias_totales", "robos_totales"]
+        for indice_externo in tipo_clave:
+            sorted_list = ordenamiento_quicksort(lista_basquet, "estadisticas", indice_externo, False)
+            index = 0
+            for sorted_jugador in sorted_list:
+                for jugador in rankings_lista_basquet:
+                    if jugador["nombre"] == sorted_jugador["nombre"]:
+                        jugador[f"{indice_externo}"] = index + 1
+                        break
+                index += 1
+        return rankings_lista_basquet
+    
+
+def guardar_ranking_csv(path, dato):
+    if not dato:
+        print("Error, los datos no se han guardado en el archivo {0}".format(path))
+    with open(path, "w", newline="") as archivo:
+        writer = csv.writer(archivo)
+
+        campos = [item[0] for item in dato[0].items()]
+        writer.writerow(campos)
+
+        for item in dato:
+            writer.writerow(item.values())
+
+    print("Los datos se han guardado en el archivo {0}".format(path))
+
+
+
+"Extra parcial"
+
+def cantidad_posicion(lista_basquet):
+    contador1= 0
+    contador2= 0
+    contador3= 0
+    contador4= 0
+    contador5= 0
+
+    for i in lista_basquet:
+        if i["posicion"] == "Ala-Pivot":
+            contador1+=1
+        elif i["posicion"]== "Alero":
+            contador2+=1
+        elif i["posicion"] == "Pivot":
+            contador3+=1
+        elif i["posicion"] == "Escolta":
+            contador4+=1
+        elif i["posicion"] == "Base":
+            contador5+=1
+
+    print("Ala-Pivot : {0}".format(contador1))
+    print("Alero : {0}".format(contador2))
+    print("Pivot : {0}".format(contador3))
+    print("Ala-Pivot : {0}".format(contador4))
+    print("Base : {0}".format(contador5))
+
+
+
+def mostrar_lista_ordenada_all_stars_desc(lista_basquet):
+    for item in lista_basquet:
+        logros = item["logros"]
+        for logro in logros:
+            if re.findall(r"\d+ veces All-Star", logro):
+                print("{0}, ({1})".format(item["nombre"], logro))
+
+
+
+
+def buscar_jugador_con_la_mejor_stadistica(lista_jugadores:list,valor_stadistico:str) -> str:
+    
+    """
+    busca el mayor valor de la estaditicas
+    de cada jugador en la lista 
+    
+    lista_jugadores: es la lista
+    donde se buscan y comparan 
+    los datos de los jugadores
+
+    valor_stadistico: es el valor 
+    que se va a compara y buscar
+    en la lista
+
+    retorno:
+    devuelve un texto con el nombre del
+    jugador que tiene el mayor valor 
+    espesificado en la lista 
+    """
+
+
+    flag_primer_vez = True
+
+    for jugador in lista_jugadores:
+
+        if flag_primer_vez:
+
+            flag_primer_vez= False
+
+            mayor_estaditica = jugador
+
+        elif jugador["estadisticas"][valor_stadistico] > mayor_estaditica["estadisticas"][valor_stadistico]:
+
+            mayor_estaditica = jugador
+
+        estaditica = valor_stadistico.replace("_"," ")
+
+        jugador_con_mejor_estadistica = "Mayor cantidad de {0}: {1}({2})".format(estaditica,mayor_estaditica["nombre"],
+                                                                                 mayor_estaditica["estadisticas"][valor_stadistico])
+
+    return jugador_con_mejor_estadistica
+
+
+def los_mejores_jugadores_de_cada_estadistica(lista_jugadores:list) -> list:
+
+    """
+    muestra por consola 
+    el nombre con el mayor
+    valor esataditico de
+    cada una de las estaditicas
+
+    lista_jugadores: es la lista    
+    donde se van a buscar y mostrar
+    las mayores estaditicas
+
+    retorno:
+    devuelve una lista la mayor 
+    estadistica y el nombre
+    del jugador que tiene el
+    valor mas grande en esa
+    estaditica 
+    """
+
+    lista_estaditica = []
+    
+    lista_de_cada_staditica = []
+
+    for key in lista_jugadores[0]["estadisticas"]:
+
+        lista_estaditica.append(key)
+
+    for estadistica in lista_estaditica:
+
+       lista_de_cada_staditica.append(buscar_jugador_con_la_mejor_stadistica(lista_jugadores,estadistica))
+
+    return "\n".join(lista_de_cada_staditica)
+
+
+def mejor_estadistica_global(jugadores):
+    mejor_jugador = max(jugadores, key=lambda jugador: sum(jugador["estadisticas"].values()))
+    print("Mejor jugador en todas las estadísticas: " + mejor_jugador["nombre"])
 

@@ -14,7 +14,7 @@ def menu_principal()->str:
     '''
     imprimir_menu_parcial_1()
     entrada = input("Ingrese una opción del menú (1-20): ")
-    if re.match(r"^[1-9]|1[0-9]|20$", entrada):
+    if re.match(r"^[1-9]|1[0-9]|2[0-6]$", entrada):
         return int(entrada)
     else:
         return -1
@@ -47,6 +47,13 @@ def imprimir_menu_parcial_1()->None:
                     "18 - Ingresar un valor y mostrar los jugadores que hayan tenido un porcentaje de tiros triples superior a ese valor.\n"
                     "19 - Mostrar el jugador con la mayor cantidad de temporadas jugadas.\n"
                     "20 - Ingresar un valor y mostrar los jugadores , ordenados por posición en la cancha, que hayan tenido un porcentaje de tiros de campo superior a ese valor.\n"
+                    "21 -  la cantidad de jugadores que hay por cada posición (1)\n"
+                    "22 - Mostrar la lista de jugadores ordenadas por la cantidad de All-Star de forma descendente\n"
+                    "23 . Bonus Rankings Jugadores\n"
+                    "24 - Extra (3)\n"
+                    "25 - Extra (4)\n"
+                    "26 - Salir \n"
+
                     "O- Salir\n"
     )
 
